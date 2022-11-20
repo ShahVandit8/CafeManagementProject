@@ -16,7 +16,16 @@ const ItemCard = (props, handleclick) => {
     // }
 
     const onValueChange = (e) => {
-        setQty(e.target.value)
+        const updatedQuantity = Number(e.target.value)
+        setQty(updatedQuantity)
+        // change quantity in cart if product is added
+        if (props.foodcart.some(cart=> cart.name === props.Item_Name)){
+            props.setFoodCart(
+                [...props.foodcart.filter(cart=> cart.name !== props.Item_Name),
+                    {id: props.item._id, name: props.Item_Name, qty: updatedQuantity, unitprice: props.Unit_Price, wholeprice: props.Unit_Price * updatedQuantity }
+                ]
+            )
+        }
     }
 
   return (
@@ -48,12 +57,17 @@ const ItemCard = (props, handleclick) => {
                                             </p>
                                         </div>
                                         <div className="col-6">
-                                            <button 
-                                            className="btn btn-primary float-right mr-3" 
-                                            style={{ width: '90px', fontSize: 13, marginTop: '-5px' }}
-                                            // onClick={() => handleClick(this)}
-                                            onClick={() => props.handleclick(props.item, qty)}
-                                            > Add </button>
+                                            {
+                                                props.foodcart.some(cart=> cart.name === props.Item_Name) ? 'Added': (
+
+                                                    <button 
+                                                    className="btn btn-primary float-right mr-3" 
+                                                    style={{ width: '90px', fontSize: 13, marginTop: '-5px' }}
+                                                    // onClick={() => handleClick(this)}
+                                                    onClick={() => props.handleclick(props.item, qty)}
+                                                    > Add </button>
+                                                    )
+                                                }
                                         </div>
                                     </div>
                                 </div>

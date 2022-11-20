@@ -41,9 +41,7 @@ const MainMenu = () => {
     const additem = (item, quantity) => {
         setFoodCart([...foodcart, {id: item._id, name: item.Item_Name, qty: quantity, unitprice: item.Unit_Price, wholeprice: item.Unit_Price * quantity } ])
         // setFoodCart({...foodcart, item: item});
-        console.log(foodcart)
     }
-
     const onValueChange = (e) => {
         setQuantity(e.target.value)
         console.log(quantity)
@@ -80,6 +78,7 @@ const MainMenu = () => {
     // ))
 
     return (
+        <>
         <div>
             <div>
                 {/* style={{ backgroundColor: '#FF3C6A', color: 'white'}} */}
@@ -96,7 +95,7 @@ const MainMenu = () => {
 
                             {
                                 foodItem.map((item, index) => (
-                                    <ItemCard key={index} item={item} Item_Name={item.Item_Name} Description={item.Description} Unit_Price={item.Unit_Price} handleclick={additem} />
+                                    <ItemCard key={index} foodcart={foodcart} setFoodCart={setFoodCart} item={item} Item_Name={item.Item_Name} Description={item.Description} Unit_Price={item.Unit_Price} handleclick={additem} />
                                 ))
                             }
 
@@ -109,18 +108,22 @@ const MainMenu = () => {
  
                 <h2 className="text-center mt-3">Customer Details</h2>
 
-                <CustomerOrder fooditem={foodcart} />
-                {/* {
+        </div>
+            <div className=''>
+                { foodcart.length >= 0 && (
+                    <p>Name | Quantity | Price</p>
+                )}
+                {
                     foodcart.map(item => (
                         <>
-                        <p>{item.Item_Name}</p>
+                           <p className='mb-0'>{item.name} | {item.qty} | {item.wholeprice}</p>
                         </>
                     ))
-                } */}
-                {/* {foodlistcart} */}
-                
+                }
             </div>
-        </div>
+                <CustomerOrder fooditem={foodcart} />
+            </div>
+        </>
     )
 }
 

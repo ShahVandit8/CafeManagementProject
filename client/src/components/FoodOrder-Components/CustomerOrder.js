@@ -7,7 +7,6 @@ const CustomerOrder = ({ fooditem }) => {
 
     const { id } = useParams();
     // const [ foodcart, setFoodcart ] = useState(fooditem)
-    const [ cart, setCart ] = useState({})
     const [ customer, setCustomer ] = useState({
         name: '',
         phone: 0,
@@ -18,24 +17,14 @@ const CustomerOrder = ({ fooditem }) => {
         setCustomer({ ...customer, [e.target.name] : e.target.value})
     }
 
-    var totalprice = 0;
-
-    const placeOrder = () => {
-        fooditem.map(item =>{
-            totalprice = totalprice+item.wholeprice;
-        })
-        setCart({ Customer: customer, cart: fooditem, time: Date().toString(), status: "new", totalamount: totalprice});
-        console.log(cart)
-
-    }
 
     const placeOrderFood = async () => {
-
+        let total = 0;
         fooditem.map(item =>{
-            totalprice = totalprice+item.wholeprice;
+          total = total + item.wholeprice;
         })
 
-        setCart({ Customer: customer, cart: fooditem, time: Date().toString(), status: "new", totalamount: totalprice});
+        const cart = { Customer: customer, cart: fooditem, time: Date().toString(), status: "new", totalamount: total };
         console.log(cart)
         const order = await placeFoodOrder(cart, id);
 
@@ -80,7 +69,6 @@ const CustomerOrder = ({ fooditem }) => {
                           </div>
                         </div>
                         <div className="col-md-12">
-                        <button type="submit" className="btn btn-primary pt-2 btn-block" style={{color: 'white'}} onClick={() => placeOrder()}>Confirm Order</button>
                           <button type="submit" className="btn btn-primary pt-2 btn-block" style={{color: 'white'}} onClick={() => placeOrderFood()}>Place Order</button>
                         </div>
                       </div>
